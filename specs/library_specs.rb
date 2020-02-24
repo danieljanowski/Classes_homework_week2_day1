@@ -5,66 +5,42 @@ Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 class TestLibrary < MiniTest::Test
 
-  def setup
-    @users = [
-      {
-      name: "Daniel",
-      books: [
-                {
-                  author: "R. R. Tolkien",
-                  title: "Lord of the Rings"
-                },
-                {
-                  author: "Chris Pine",
-                  title: "Programming in Ruby"
-                }
-              ]
-        },
-        {
-        name: "Millie",
-        books: [
-                  {
-                    author: "C. S. Lewis",
-                    title: "The Lion, the Witch and the wardrobe"
-                  },
-                  {
-                    author: "Louisa May Alcott",
-                    title: "Little Women"
-                  }
-                ]
-        },
-        {
-        name: "Oliver",
-        books: [
-                  {
-                    author: "Dav Pilkey",
-                    title: "Dog Man"
-                  }
-                ]
-        }
-      }
+  def setup()
+    @users =
+      {"Daniel" => ["Lord of the Rings", "Programming in Ruby"],
+      "Millie" => ["The Lion, the Witch and the wardrobe", "Little Women"],
+      "Oliver" => ["Dog Man"]}
 
-    @shelf = [
-              {
-                author: "C. S. Lewis",
-                title: "The Silver Chair"
-              },
-              {
-                author: "C. S. Lewis",
-                title: "Prince Caspian"
-              },
-              {
-                author: "Nick Streatfield",
-                title: "White Boots"
-              },
-              {
-                author: "Judith Kerr",
-                title: "The Tiger Who Came to Tea"
-              }
-            ]
-    end
+    @shelf = ["The Silver Chair", "Prince Caspian", "White Boots", "The Tiger Who Came to Tea"]
+  end
 
-def test_
+  def test_list_users
+    library = Library.new(@users, @shelf)
+    result = library.list_users
+    assert_equal(["Daniel", "Millie", "Oliver"], result)
+  end
 
+  def test_list_books_from_user
+    library = Library.new(@users, @shelf)
+    result = library.list_books_from_user("Daniel")
+    assert_equal(["Lord of the Rings", "Programming in Ruby"], result)
+  end
+
+  def test_add_user
+    library = Library.new(@users, @shelf)
+    library.add_user("Naomi")
+    assert_equal(4, library.users.keys.count)
+  end
+
+  def test_book_available
+  
+  end
+
+  def test_borrow_book
+    library = Library.new(@users, @shelf)
+    library.borrow_book("Oliver", "The Tiger Who Came to Tea")
+    assert_equal(["Dog Man", "The Tiger Who Came to Tea"], library.list_books_from_user("Oliver"))
+    assert_equal(["The Silver Chair", "Prince Caspian", "White Boots"], @shelf)
+  end
 
 end
