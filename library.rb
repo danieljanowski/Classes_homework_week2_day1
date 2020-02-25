@@ -35,9 +35,7 @@ class Library
 
   def locate_book(book)
     return "shelf" if book_available(book)
-    for user in @users
-      return user[0] if user[1].include?(book)
-    end
+    @users.each{|user| return user[0] if user[1].include?(book)}
     return "lost"
   end
 

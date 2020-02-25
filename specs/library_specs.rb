@@ -64,4 +64,10 @@ class TestLibrary < MiniTest::Test
     assert_equal("Millie", result)
   end
 
+  def test_locate_book_lost
+    library = Library.new(@users, @shelf)
+    result = library.locate_book("JavaScript")
+    assert_equal("lost", result)
+  end
+
 end
